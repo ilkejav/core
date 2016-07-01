@@ -1,24 +1,25 @@
 class Coordinate
   
   def initialize lat, lon
+
     @lon = lon
     @lat = lat
+    
   end
 
-  def lat
-    return @lat
-  end
-
-  def lon
-    return @lon
-  end
+  def lat ; return @lat end
+  def lon ; return @lon end
 
   def deg2rad
+
     return PI / 180
+
   end
 
   def power(num, pow)
+
     return num ** pow
+
   end
 
   def distanceFrom coord
@@ -30,11 +31,6 @@ class Coordinate
 
     dlon = lon2 - lon1
     dlat = lat2 - lat1
-
-    # a = power(sin(dlat/2), 2) + cos(lat1) * cos(lat2) * power(sin(dlon/2), 2)
-
-    # a = ((sin(dlat/2))**2) + cos(lat1) * cos(lat2) * ((sin(dlon/2))**2)
-    # c = 6371 * 2 * atan2(sqrt(a), sqrt(1-a))
 
     c = 2 * 6371 * asin(sqrt(sin((lat2-lat1)/2)**2 + cos(lat1) * cos(lat2) * sin((lon2 - lon1)/2)**2))
 
