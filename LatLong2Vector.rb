@@ -1,5 +1,6 @@
 include Math
-include matrix
+include Matrix
+
 # def llarToWorld(latit, longit, altid, rad):
 #     x = math.sin(longit) * math.cos(latit)
 #     z = math.sin(longit) * math.sin(latit)
@@ -23,5 +24,3 @@ def Vec2LatLon vec
   lon = atan(vec.y,vec.x)
   return [lat,lon]
 end
-
-puts 
