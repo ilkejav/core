@@ -16,12 +16,6 @@ class Coordinate
 
   end
 
-  def power(num, pow)
-
-    return num ** pow
-
-  end
-
   def distanceFrom coord
 
     lat1 = @lat * deg2rad
