@@ -17,6 +17,7 @@ class Coordinate
   end
 
   def distanceFrom coord
+    if !coord then return 0 end
 
     lat1 = @lat * deg2rad
     lon1 = @lon * deg2rad

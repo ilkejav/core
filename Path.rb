@@ -17,20 +17,23 @@ class Path
   # end
 
   def segmentLength index
-
+    if index > coordinates.length then return 0 end
     return coordinates[index.to_i].distanceFrom(coordinates[index.to_i+1])
 
   end
 
-  # def length start, finish
+  def getDistance start = 0, finish = coordinates.length
 
-  #   for i = start in coordinates
-  #     if i < coordinates.length || i < finish
-  #       @distances.push( path[i].distanceFrom[i+1] )
-  #   coordinates
+    sum = 0
+    i = 0
+    while i < coordinates.length 
+      if i >= start && i < finish 
+        sum += segmentLength(i)
+      end
+      i+=1
+    end
+    return sum
 
-  #   return @distances
-
-  # end
+  end
 
 end

@@ -23,17 +23,22 @@ cities = {
 }
 
 path = Path.new([
-  Coordinate.new(45.5017, -73.5673),
-  Coordinate.new(49.2827, -123.1207)
+  mtl,
+  van,  # 3697 km
+  ist,  # 9627 km
+  sha   # 7996 km
+  # total : 21320 km || 20696 km
 ])
 
 # puts mtl.distanceFrom(van)
 
-puts "%.2f" % cities[ARGV[0]].distanceFrom(cities[ARGV[1]])
-puts path.segmentLength(0)
+# puts "%.2f" % cities[ARGV[0]].distanceFrom(cities[ARGV[1]])
+# puts path.segmentLength(0)
+
+puts path.getDistance
 
 # Test path
 # pos1 48.509 -125.263
-# pos2 47.983 -128.639
-# pos3 47.048 -125.684
+# pos2 47.983 -128.639 : 256.71 km  
+# pos3 47.048 -125.684 : 245.04 km
 # length 474km (260nmi)
