@@ -1,9 +1,9 @@
 class Bind
 
   def name; return "bind" end
-  def path ; return "/GitHub/Playground" end
+  def path ; return "/GitHub/core" end
 
-  def run param
+  def run param = nil
 
     if Dir["*"].include?("#{cmd}.rb")
       load("#{path}/Apps/#{cmd}.rb")

@@ -1,13 +1,8 @@
-require_relative("Playground.rb")
-require("date")
-require_relative("Apps/colorize.rb")
+require_relative("core.rb")
 
-$playground = Playground.new
 
 system "cls"
 
-puts("\n  | Hello, today is") 
-puts("  | " + "#{Date.today.strftime('%a, %b %d %Y')}".cyan)
-puts("\n".no_colors)
-
-$playground.listen while(true)
+$core = Core.new
+# $core.start
+$core.listen while(true)

@@ -1,51 +1,49 @@
 require_relative("memory.rb")
-require_relative("Apps/colorize.rb")
 
-class Playground
+class Core
 
   def initialize
-    @memory = Memory.new
+    # @memory = Memory.new
+    @lastCommand = nil
+    load("Apps/colorize.rb")
+    load("Apps/welcome.rb")
+    Welcome.new.run
   end
 
-  def path ; return "/GitHub/Playground" end
+  def path ; return Dir.getwd end
   def memory ; return @memory end
+  # def lastCommand ; return @lastCommand end
+  def name; return "core" end
 
   def listen
     
-    print "  CORE > ".cyan
+    print "\n  #{name.upcase} > ".cyan
     
     command = $stdin.readline().strip
+    
+    load("Apps/colorize.rb")
 
-    if command.downcase == "quit" 
+    case command.downcase
+    when "quit", "exit"
       puts("\n")
       exit 0 
-      return false 
-    end
-
-    if command.empty?
+      return false
+    when "clear"
+      system "cls"
+      load("Apps/welcome.rb")
+      Welcome.new.run
+      return false
+    when ""
       puts "\n"
       return false
-    end
-    
-    log(parse(command))
-  
-  end
-
-  def log answer
-    
-    answerer = answer.first
-    content = answer.last.to_s
-
-    if content.lines.length > 1
-        puts "  #{answerer.upcase} >"
-      content.lines.each do |line|
-        puts "    #{line}"
-      end
+    when "~","last"
+      command = @lastCommand if @lastCommand != nil
+      log(parse(command))
     else
-      puts "  #{answerer.upcase} > #{content}\n"
+      @lastCommand = command
+      log(parse(command))
     end
-    puts "\n"
-    
+  
   end
 
   def parse command
@@ -58,9 +56,18 @@ class Playground
       answerer = Object.const_get(cmd.capitalize).new 
       return answerer.name,answerer.run(param)
     else
-      return "CORE","Cannot find #{cmd}"
+      return "#{name.upcase}","Cannot find #{cmd}".red
     end
 
+  end
+
+  def log answer
+    
+    answerer = answer.first
+    content = answer.last.to_s
+
+    puts "  #{answerer.upcase} > #{content}\n"
+    
   end
 
 end

@@ -3,15 +3,24 @@ class Help
   def name; return "help" end
 
 	def run param = nil
+    
+    load("Apps/form.rb")
     list = ""
-    Dir["Apps/*"].each do |filename|
-      if !filename.include?(".")
-        list+= filename.split("/").last.gray + "/" + "\n"
+
+    Dir.entries("Apps").each do |filename|
+
+      if filename.end_with?(".","..")
+        list+= ""
+      elsif filename.end_with?(".rb")
+        list+= filename.sub(".rb","").upcase.green + "\n"
       else
-        list+= filename.split("/").last.sub(".rb","").upcase.green + "\n"
+        list+= filename.split("/").last.gray + "/" + "\n"
       end
+
     end
-    return list
+
+    return Form.new(list).multiLine
+  
   end
 
 end
