@@ -10,7 +10,12 @@ class Welcome
 
     text = ""
     text += "Welcome to the core"
-    text += "\n#{Clock.new.run.no_colors.cyan}"
+    text += "\n#{Clock.new.run.cyan}"
+    text += "\nTODO:"
+    text += "\n - investigate rescue command"
+    text += "\n - prevent cmd from closing on error"
+    text += "\n - catch keyboard inputs like esc and arrows"
+    text += "\n - send stuff to clipboard"
     text += "\n"
     
     puts Form.new(text).multiLine

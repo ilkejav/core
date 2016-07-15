@@ -12,10 +12,15 @@ class Form
 
     if @text.lines.length > 1
       @text.lines.each do |i|
-        newText += "  |  #{i}"
+        newText += "  |  ".no_colors
+        newText += "#{i}"
       end
     end
     return newText.rstrip
+  end
+
+  def list
+    
   end
 
 end
