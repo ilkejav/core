@@ -7,6 +7,7 @@ USED WORDS:
   - draw
   - help
   - apps
+  - scan
 ---
 GOOD CANDIDATES:
   - disk
@@ -25,6 +26,14 @@ GOOD CANDIDATES:
   - note
   - user
   - tool
+  - hook
+  - icon
+  - kill
+  - time
+  - call
+  - life
+  - memo
+  - view
 ---
 AVAILABLE WORDS:
 able
@@ -67,7 +76,6 @@ bulk
 burn
 bush
 busy
-call
 calm
 came
 camp
@@ -232,7 +240,6 @@ keen
 kent
 kept
 kick
-kill
 kind
 king
 knee
@@ -442,7 +449,6 @@ thin
 this
 thus
 till
-time
 tiny
 told
 toll

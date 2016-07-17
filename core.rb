@@ -1,4 +1,5 @@
 require_relative("memory.rb")
+require 'io/console'
 
 class Core
 
@@ -19,26 +20,19 @@ class Core
     
     print "\n  #{name.upcase} > ".cyan
     
-    command = $stdin.readline().strip
+    command = $stdin.readline().strip.downcase
     
     load("Apps/colorize.rb")
 
-    case command.downcase
+    case command
     when "quit", "exit"
-      puts("\n")
-      exit 0 
-      return false
+      then puts("\n"); exit 0; return false
     when "clear"
-      system "cls"
-      load("Apps/welcome.rb")
-      Welcome.new.run
-      return false
+      then system "cls"; load("Apps/welcome.rb"); Welcome.new.run; return false
     when ""
-      puts "\n"
-      return false
-    when "~","last"
-      command = @lastCommand if @lastCommand != nil
-      log(parse(command))
+      then puts "\n"; return false
+    # when "~","last"
+    #   then command = @lastCommand if @lastCommand != nil; log(parse(command))
     else
       @lastCommand = command
       log(parse(command))
@@ -48,21 +42,34 @@ class Core
 
   def parse command
 
-    cmd = command.split(" ").first.to_s.downcase
-    param = command.sub(cmd,"").strip
+    arguments = command.split(" ")
+    commands = arguments.shift
+    app = find(commands)
 
-    if Dir["Apps/*"].include?("Apps/#{cmd}.rb")
-      load("#{path}/Apps/#{cmd}.rb")
-      answerer = Object.const_get(cmd.capitalize).new 
-      return answerer.name,answerer.run(param)
+    if(app)
+      load(File.join("#{path}","#{app}"))
+      answerer = Object.const_get(commands.capitalize).new 
+      return answerer.name,answerer.run(arguments)
     else
-      return "#{name.upcase}","Cannot find #{cmd}".red
+      return "#{name.upcase}","Cannot find #{commands}".red
+    end
+
+  end
+
+  def find app_name
+
+    pattern = File.join("**","#{app_name}.rb")
+
+    Dir.glob(pattern) do |found_app|
+      return (found_app)
     end
 
   end
 
   def log answer
     
+    return nil if !answer 
+
     answerer = answer.first
     content = answer.last.to_s
 

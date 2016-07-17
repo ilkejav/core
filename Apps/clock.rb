@@ -3,6 +3,7 @@ class Clock
   def name; return "clock" end
   
   def run param = nil
+    
     case param
     when "year"
       year.green
@@ -17,6 +18,7 @@ class Clock
     else
       return "#{weekday}, #{month} #{day} #{year}, at #{hour}".green
     end
+    
   end
 
   def hour
