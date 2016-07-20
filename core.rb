@@ -1,20 +1,21 @@
-require_relative("memory.rb")
-require 'io/console'
+# require_relative("memory.rb")
 
 class Core
 
   def initialize
     # @memory = Memory.new
     @lastCommand = nil
-    load("Apps/colorize.rb")
-    load("Apps/welcome.rb")
+    load("Core/colorize.rb")
+    load("Core/welcome.rb")
+    load("Core/find.rb")
+    @finder = Find.new
     Welcome.new.run
   end
 
   def path ; return Dir.getwd end
-  def memory ; return @memory end
-  # def lastCommand ; return @lastCommand end
+  # def memory ; return @memory end
   def name; return "core" end
+  def finder; return @finder end
 
   def listen
     
@@ -22,13 +23,13 @@ class Core
     
     command = $stdin.readline().strip.downcase
     
-    load("Apps/colorize.rb")
+    load("Core/colorize.rb")
 
     case command
     when "quit", "exit"
-      then puts("\n"); exit 0; return false
+      then system "cls"; exit 0; return false
     when "clear"
-      then system "cls"; load("Apps/welcome.rb"); Welcome.new.run; return false
+      then system "cls"; load("Core/welcome.rb"); Welcome.new.run; return false
     when ""
       then puts "\n"; return false
     # when "~","last"
@@ -44,7 +45,7 @@ class Core
 
     arguments = command.split(" ")
     commands = arguments.shift
-    app = find(commands)
+    app = finder.find_app(commands)
 
     if(app)
       load(File.join("#{path}","#{app}"))
@@ -52,16 +53,6 @@ class Core
       return answerer.name,answerer.run(arguments)
     else
       return "#{name.upcase}","Cannot find #{commands}".red
-    end
-
-  end
-
-  def find app_name
-
-    pattern = File.join("**","#{app_name}.rb")
-
-    Dir.glob(pattern) do |found_app|
-      return (found_app)
     end
 
   end

@@ -4,7 +4,7 @@ class Help
 
 	def run param = nil
     
-    load("Apps/form.rb")
+    load("Core/form.rb")
     list = ""
 
     Dir.entries("Apps").each do |filename|
