@@ -3,23 +3,26 @@
 class Core
 
   def initialize
-    # @memory = Memory.new
-    @lastCommand = nil
+    load("Core/memory.rb")
+    @memory = Memory.new
     load("Core/colorize.rb")
     load("Core/welcome.rb")
     load("Core/find.rb")
     @finder = Find.new
+    load("Core/spellcheck.rb")
+    @spellchecker = Spellcheck.new
     Welcome.new.run
   end
 
   def path ; return Dir.getwd end
-  # def memory ; return @memory end
-  def name; return "core" end
+  def memory ; return @memory end
+  # def core; return "core" end
   def finder; return @finder end
+  def spellchecker; return @spellchecker end
 
   def listen
     
-    print "\n  #{name.upcase} > ".cyan
+    print "\n  CORE > ".cyan
     
     command = $stdin.readline().strip.downcase
     
@@ -27,15 +30,21 @@ class Core
 
     case command
     when "quit", "exit"
-      then system "cls"; exit 0; return false
+      then system "cls"
+      exit 0
+      return false
     when "clear"
-      then system "cls"; load("Core/welcome.rb"); Welcome.new.run; return false
+      then system "cls"
+      load("Core/welcome.rb")
+      Welcome.new.run
+      return false
     when ""
-      then puts "\n"; return false
-    # when "~","last"
-    #   then command = @lastCommand if @lastCommand != nil; log(parse(command))
+      then puts "\n"
+      return false
+    when "~","last"
+      then command = memory.get_last 
+      log(parse(command))
     else
-      @lastCommand = command
       log(parse(command))
     end
   
@@ -49,10 +58,13 @@ class Core
 
     if(app)
       load(File.join("#{path}","#{app}"))
-      answerer = Object.const_get(commands.capitalize).new 
-      return answerer.name,answerer.run(arguments)
+      answerer = Object.const_get(commands.capitalize).new
+      name = answerer.respond_to?("name") ? answerer.name : "#{app}"
+      memory.add_to("\n#{command}")
+      puts("#{command}")
+      return name,answerer.run(arguments)
     else
-      return "#{name.upcase}","Cannot find #{commands}".red
+      return "CORE","Cannot find #{commands.upcase}. Did you mean #{spellchecker.correct(commands).upcase.no_color}#{"?".red}".red
     end
 
   end
