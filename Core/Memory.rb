@@ -1,5 +1,10 @@
 class Memory
 
+  def initialize
+    @screen = ""
+    @commands = ""
+  end
+
   def clean
 
     lines = File.open('Core/history').to_a
@@ -34,6 +39,16 @@ class Memory
 
     clean
 
+  end
+
+  def record value = nil
+    return unless value
+
+    @screen << "#{value}"
+  end
+
+  def recall
+    return @screen
   end
   
 end

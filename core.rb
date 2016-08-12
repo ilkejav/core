@@ -1,5 +1,3 @@
-# require_relative("memory.rb")
-
 class Core
 
   def initialize
@@ -11,24 +9,35 @@ class Core
     @finder = Find.new
     load("Core/spellcheck.rb")
     @spellchecker = Spellcheck.new
-    Welcome.new.run
+    load("Core/colorize.rb")
+    puts Welcome.new.run
+    memory.record Welcome.new.run
   end
 
   def path ; return Dir.getwd end
   def memory ; return @memory end
-  # def core; return "core" end
   def finder; return @finder end
   def spellchecker; return @spellchecker end
 
   def listen
     
     print "\n  CORE > ".cyan
+    memory.record "\n  CORE > ".cyan
     
     command = $stdin.readline().strip.downcase
     
-    load("Core/colorize.rb")
-
     case command
+    when "show"
+      memory.record "show"
+      system "cls"
+      puts memory.recall
+      # File.read('Core/history_screen', 'r') do |f|
+      #   puts f  
+      # end
+    # when "reboot"
+    #   then system("#{path}/Core/reboot.bat")
+    #   puts File.open("#{path}/Core/reboot.bat")
+    #   puts "trying to reboot"
     when "quit", "exit"
       then system "cls"
       exit 0
@@ -40,6 +49,8 @@ class Core
       return false
     when ""
       then puts "\n"
+      
+      memory.record "\n"
       return false
     when "~","last"
       then command = memory.get_last 
@@ -61,7 +72,6 @@ class Core
       answerer = Object.const_get(commands.capitalize).new
       name = answerer.respond_to?("name") ? answerer.name : "#{app}"
       memory.add_to("\n#{command}")
-      puts("#{command}")
       return name,answerer.run(arguments)
     else
       return "CORE","Cannot find #{commands.upcase}. Did you mean #{spellchecker.correct(commands).upcase.no_color}#{"?".red}".red
@@ -77,7 +87,18 @@ class Core
     content = answer.last.to_s
 
     puts "  #{answerer.upcase} > #{content}\n"
+    memory.record "  #{answerer.upcase} > #{content}\n"
     
+  end
+
+  def store text
+
+    memory.record text
+    # str = "#{text}"
+    # File.open('Core/history_screen', 'a') do |f|
+    #   f << str
+    # end
+
   end
 
 end

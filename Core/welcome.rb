@@ -9,11 +9,10 @@ class Welcome
     load("Core/clock.rb")
 
     text = ""
-    text += "Welcome to the core"
-    text += "\n#{Clock.new.run.cyan}"
-    text += "\n"
+    text += "\nWelcome to the core"
+    text += "\n#{Clock.new.run.cyan}\n"
     
-    puts Form.new(text).multiLine
+    return Form.new(text).multiLine
     
   end
   
