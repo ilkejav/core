@@ -53,7 +53,8 @@ class Core
       memory.record "\n"
       return false
     when "~","last"
-      then command = memory.get_last 
+      then command = memory.get_last
+      puts "  LAST > #{command}"
       log(parse(command))
     else
       log(parse(command))
