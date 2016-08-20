@@ -1,15 +1,18 @@
 class Core
 
   def initialize
-    load("Core/memory.rb")
+    load "Core/memory.rb"
+    load "Core/colorize.rb"
+    load "Core/welcome.rb"
+    load "Core/find.rb"
+    load "Core/spellcheck.rb"
+    load "Core/colorize.rb"
+    require "csv"
+    
     @memory = Memory.new
-    load("Core/colorize.rb")
-    load("Core/welcome.rb")
-    load("Core/find.rb")
     @finder = Find.new
-    load("Core/spellcheck.rb")
     @spellchecker = Spellcheck.new
-    load("Core/colorize.rb")
+    
     puts Welcome.new.run
     memory.record Welcome.new.run
   end
@@ -64,7 +67,8 @@ class Core
 
   def parse command
 
-    arguments = command.split(" ")
+    # arguments = command.split(" ")
+    arguments = CSV.parse(command, col_sep: ' ').flatten
     commands = arguments.shift
     app = finder.find_app(commands)
 
